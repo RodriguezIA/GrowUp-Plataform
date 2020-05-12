@@ -1,0 +1,88 @@
+<ion-header style="font-size: smaller;">
+  <ion-toolbar>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" routerLink='home' style="padding-right: 4%;">
+        <ion-img [src]="['./assets/navbar/logo.png']"></ion-img>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+
+          <ion-button style="font-size:small;" color="dark" routerLink='/home' fill="clear">
+            Home
+          </ion-button>
+
+          <ion-button color="dark" *ngIf="isLogged" routerLink='/courses' fill="clear">
+            Cursos
+          </ion-button>
+
+          <ion-button color="dark" *ngIf="isLogged" routerLink='/We' fill="clear">
+            Perfil
+          </ion-button>
+
+          <ion-button color="danger" *ngIf="isLogged" routerLink='/courses-admin' fill="clear">
+            Cursos-admin temporal
+          </ion-button>
+        </ul>
+
+        <ion-button *ngIf="!isLogged" routerLink='/login' fill="solid">
+          Iniciar Sesion
+        </ion-button>
+
+        <ion-button style="font-size: smaller;" *ngIf="isLogged" size="small" color="medium" routerLink='/We'
+          fill="clear">
+          Usuario: {{user.email}}
+        </ion-button>
+
+        <ion-avatar *ngIf="isLogged && photo">
+          <img src="{{user.photoUrl}}" />
+        </ion-avatar>
+
+        <ion-avatar *ngIf="isLogged && !photo">
+          <img src="../../../assets/user/logo.png" />
+        </ion-avatar>
+
+        <br>
+
+        <ion-button *ngIf="!isLogged" routerLink='/register' fill="solid">
+          Registarse
+        </ion-button>
+
+        <ion-button *ngIf="isLogged" (click)="onLogout()">
+          <ion-icon name="log-out-outline"></ion-icon>
+        </ion-button>
+
+      </div>
+    </nav>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+<section id="profile" class="container">
+  <div class="row mt-5">
+    <div class="offset-lg-4 col-lg-4 col-sm-6 col-12 main-section text-center card">
+      <div class="row">
+        <div class="col-lg-12 col-sm-12 col-12 profile-header"></div>
+      </div>
+      <div class="row user-details">
+        <div class="col-12">
+          <img *ngIf="isLogged && photo" src="{{user.photoUrl}}" class="rounded-circle img-thumbnail" alt="profile">
+          <img *ngIf="isLogged && !photo" src="../../../assets/user/logo.png" class="rounded-circle img-thumbnail" alt="profile">
+          <h5 *ngIf="providerId != 'password'">{{user.name}}</h5>
+          <p>
+            {{user.email}}
+          </p>
+
+          <hr>
+          <span>Aprendamos juntos, y crescamos en un mundo mas conectado, con toda nuestra counidad grow-up seremos capaces de hacer cosas importantes en nuestras localidades</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+<app-header></app-header>
+</ion-content>

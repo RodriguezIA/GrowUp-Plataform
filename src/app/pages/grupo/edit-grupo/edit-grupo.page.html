@@ -1,0 +1,161 @@
+<ion-header style="font-size: smaller;">
+    <ion-toolbar>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" routerLink='home' style="padding-right: 4%;">
+                <ion-img [src]="['./assets/navbar/logo.png']"></ion-img>
+            </a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+                aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+
+                    <ion-button style="font-size:small;" color="dark" routerLink='/home' fill="clear">
+                        Home
+                    </ion-button>
+
+                    <ion-button color="dark" *ngIf="isLogged" routerLink='/courses' fill="clear">
+                        Cursos
+                    </ion-button>
+
+                    <ion-button color="dark" *ngIf="isLogged" routerLink='/We' fill="clear">
+                        Perfil
+                    </ion-button>
+
+                    <ion-button color="danger" *ngIf="isLogged" routerLink='/courses-admin' fill="clear">
+                        Cursos-admin temporal
+                    </ion-button>
+                </ul>
+
+                <ion-button *ngIf="!isLogged" routerLink='/login' fill="solid">
+                    Iniciar Sesion
+                </ion-button>
+
+                <ion-button style="font-size: smaller;" *ngIf="isLogged" size="small" color="medium" routerLink='/We'
+                    fill="clear">
+                    Usuario: {{user.email}}
+                </ion-button>
+
+                <ion-avatar *ngIf="isLogged && photo">
+                    <img src="{{user.photoUrl}}" />
+                </ion-avatar>
+
+                <ion-avatar *ngIf="isLogged && !photo">
+                    <img src="../../../assets/user/logo.png" />
+                </ion-avatar>
+
+                <br>
+
+                <ion-button *ngIf="!isLogged" routerLink='/register' fill="solid">
+                    Registarse
+                </ion-button>
+
+                <ion-button *ngIf="isLogged" (click)="onLogout()">
+                    <ion-icon name="log-out-outline"></ion-icon>
+                </ion-button>
+
+            </div>
+        </nav>
+    </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+    <ion-grid fixed>
+        <ion-row>
+            <ion-col size="8" offset="2">
+                <ion-card>
+                        <ion-list lines="full">
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">Titulo del curso: </ion-label>
+                                <br>
+                                <ion-input  required type="text" placeholder="Titulo del curso"
+                                    [(ngModel)]="course.titulo"></ion-input>
+                            </ion-item>
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">Titulo del curso: </ion-label>
+                                <ion-input required type="text" placeholder="Titulo del curso"
+                                    [(ngModel)]="course.tituloExtend"></ion-input>
+                            </ion-item>
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">Autor del curso: </ion-label>
+                                <ion-input required type="text" placeholder="Autor del curso"
+                                    [(ngModel)]="course.autor"></ion-input>
+                            </ion-item>
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">Duracion del curso: </ion-label>
+                                <ion-input required type="number" placeholder="Duracion del curso en horas"
+                                    [(ngModel)]="course.duracion"></ion-input>
+                            </ion-item>
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">imagen del curso: </ion-label>
+                                <ion-input required type="text" placeholder="Imagen del curso" [(ngModel)]="course.img">
+                                </ion-input>
+                            </ion-item>
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">Nivel del curso: </ion-label>
+                                <ion-select interface="popover" [(ngModel)]="course.nivel" okText="Okay"
+                                    cancelText="Dismiss">
+                                    <ion-select-option color="danger" value="Avanzado">Avanzado</ion-select-option>
+                                    <ion-select-option color="success" value="Intermedio">Intermedio</ion-select-option>
+                                    <ion-select-option color="primary" value="Principiante">Principiante
+                                    </ion-select-option>
+                                </ion-select>
+                            </ion-item>
+
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">Descripcion del curso: </ion-label>
+                                <ion-textarea required type="text" placeholder="Descripcion del curso"
+                                    [(ngModel)]="course.descripcion"></ion-textarea>
+                            </ion-item>
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">Acerca del curso: </ion-label>
+                                <ion-textarea required type="text" placeholder="Acerca del curso"
+                                    [(ngModel)]="course.acercaDe"></ion-textarea>
+                            </ion-item>
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">Costo del curso: </ion-label>
+                                <ion-input required type="number" placeholder="Costo del curso"
+                                    [(ngModel)]="course.costo">
+                                </ion-input>
+                            </ion-item>
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">Url del video del curso: </ion-label>
+                                <ion-input required type="text" placeholder="URL" [(ngModel)]="course.video">
+                                </ion-input>
+                            </ion-item>
+
+                            <ion-item *ngIf="course">
+                                <ion-label color="primary">Transcripcion del video del curso: </ion-label>
+                                <ion-textarea required type="text" placeholder="Trnscripcion del curso"
+                                    [(ngModel)]="course.transcripcionVideo">
+                                </ion-textarea>
+                            </ion-item>
+                        </ion-list>
+
+                        <ion-button expand="full" [disabled]="!course.titulo || !course.video" expand="full"
+                            (click)="saveCourse()">Guardar
+                        </ion-button>
+                </ion-card>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+    <ion-fab *ngIf="courseId" vertical="bottom" horizontal="end" slot="fixed" color="danger">
+        <ion-fab-button color="danger" (click)="removeCourse(courseId)" routerLink="/" routerDirection="forward">
+            <ion-icon name="trash"></ion-icon>
+        </ion-fab-button>
+    </ion-fab>
+<app-header></app-header>
+</ion-content>

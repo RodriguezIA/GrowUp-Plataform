@@ -1,0 +1,101 @@
+<ion-header style="font-size: smaller;">
+  <ion-toolbar>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" routerLink='home' style="padding-right: 4%;">
+        <ion-img [src]="['./assets/navbar/logo.png']"></ion-img>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+
+          <ion-button style="font-size:small;" color="dark" routerLink='/home' fill="clear">
+            Home
+          </ion-button>
+
+          <ion-button color="dark" *ngIf="isLogged" routerLink='/courses' fill="clear">
+            Cursos
+          </ion-button>
+
+          <ion-button color="dark" *ngIf="isLogged" routerLink='/We' fill="clear">
+            Perfil
+          </ion-button>
+
+          <ion-button color="danger" *ngIf="isLogged" routerLink='/courses-admin' fill="clear">
+            Cursos-admin temporal
+          </ion-button>
+        </ul>
+
+        <ion-button *ngIf="!isLogged" routerLink='/login' fill="solid">
+          Iniciar Sesion
+        </ion-button>
+
+        <ion-button style="font-size: smaller;" *ngIf="isLogged" size="small" color="medium" routerLink='/We'
+          fill="clear">
+          Usuario: {{user.email}}
+        </ion-button>
+
+        <ion-avatar *ngIf="isLogged && photo">
+          <img src="{{user.photoUrl}}" />
+        </ion-avatar>
+
+        <ion-avatar *ngIf="isLogged && !photo">
+          <img src="../../../assets/user/logo.png" />
+        </ion-avatar>
+
+        <br>
+
+        <ion-button *ngIf="!isLogged" routerLink='/register' fill="solid">
+          Registarse
+        </ion-button>
+
+        <ion-button *ngIf="isLogged" (click)="onLogout()">
+          <ion-icon name="log-out-outline"></ion-icon>
+        </ion-button>
+
+      </div>
+    </nav>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content>
+
+  <ion-grid fixed>
+    <ion-row>
+      <ion-col *ngFor="let h of courses" size-lg="4" size-md="8" size-sm="10">
+        <ion-card style="padding-bottom: 2%;" color="light">
+          <ion-card-header>
+            <ion-card-subtitle style="font-size: large;">{{h.autor}}</ion-card-subtitle>
+            <ion-card-title style="font-size: large;">{{h.titulo}} <br>Duracion: {{h.duracion}}H <br> Nivel:
+              {{h.nivel}}
+            </ion-card-title>
+          </ion-card-header>
+          <ion-card-content>
+            <section>
+              <br>
+              <header>
+                <h3><strong>Opciones</strong></h3>
+              </header>
+              <ion-chip button [routerLink]="['/edit-course', h.id]">
+                <ion-icon name="settings-outline"></ion-icon>
+                <ion-label>Configurar curso</ion-label>
+              </ion-chip>
+            </section>
+          </ion-card-content>
+        </ion-card>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+
+
+  <ion-fab color="tertiary" vertical="bottom" horizontal="end" slot="fixed">
+  <ion-fab-button routerLink="/save-course" routerDirection="forward">
+    <ion-icon name="add"></ion-icon>
+  </ion-fab-button>
+  </ion-fab>
+
+  <app-header></app-header>
+</ion-content>

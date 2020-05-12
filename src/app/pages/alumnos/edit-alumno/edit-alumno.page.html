@@ -1,0 +1,159 @@
+<ion-header style="font-size: smaller;">
+  <ion-toolbar>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" routerLink='home' style="padding-right: 4%;">
+        <ion-img [src]="['./assets/navbar/logo.png']"></ion-img>
+      </a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+        aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+
+          <ion-button style="font-size:small;" color="dark" routerLink='/home' fill="clear">
+            Home
+          </ion-button>
+
+          <ion-button color="dark" *ngIf="isLogged" routerLink='/courses' fill="clear">
+            Cursos
+          </ion-button>
+
+          <ion-button color="dark" *ngIf="isLogged" routerLink='/We' fill="clear">
+            Perfil
+          </ion-button>
+
+          <ion-button color="danger" *ngIf="isLogged" routerLink='/courses-admin' fill="clear">
+            Cursos-admin temporal
+          </ion-button>
+        </ul>
+
+        <ion-button *ngIf="!isLogged" routerLink='/login' fill="solid">
+          Iniciar Sesion
+        </ion-button>
+
+        <ion-button style="font-size: smaller;" *ngIf="isLogged" size="small" color="medium" routerLink='/We'
+          fill="clear">
+          Usuario: {{user.email}}
+        </ion-button>
+
+        <ion-avatar *ngIf="isLogged && photo">
+          <img src="{{user.photoUrl}}" />
+        </ion-avatar>
+
+        <ion-avatar *ngIf="isLogged && !photo">
+          <img src="../../../assets/user/logo.png" />
+        </ion-avatar>
+
+        <br>
+
+        <ion-button *ngIf="!isLogged" routerLink='/register' fill="solid">
+          Registarse
+        </ion-button>
+
+        <ion-button *ngIf="isLogged" (click)="onLogout()">
+          <ion-icon name="log-out-outline"></ion-icon>
+        </ion-button>
+
+      </div>
+    </nav>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+
+
+  <div class="jumbotron jumbotron-fluid">
+    <div class="container">
+      <ion-grid fixed>
+        <ion-row>
+          <ion-col size="8">
+            <h1 class="display-4">{{course.tituloExtend}}</h1>
+            <p class="lead text-muted" style="font-size: small;">{{course.descripcion}}</p>
+            <br>
+            <img src="../../../../assets/navbar/logo.png" alt="">
+          </ion-col>
+          <ion-col size="4" class="ion-text-center">
+            <h3 class="display-6">Detalles del curso:</h3>
+            <br>
+            <br>
+            <p class="lead">
+              <ion-icon name="time-outline"
+                style="color: rgba(252, 173, 27, 0.918);"></ion-icon> Horas: {{course.duracion}}
+            </p>
+            <p class="lead">
+              <ion-icon *ngIf="course.nivel === 'Avanzado'" name="time-outline"
+                style="color: rgba(255, 172, 17, 0.918);"></ion-icon>
+              <ion-icon *ngIf="course.nivel === 'Intermedio'" name="shield-checkmark-outline"
+                style="color: rgba(255, 173, 20, 0.918);"></ion-icon>
+              <ion-icon *ngIf="course.nivel === 'Principiante'" name="checkmark-outline"
+                style="color: rgba(255, 174, 24, 0.918);"></ion-icon> {{course.nivel}}
+            </p>
+            <p class="lead" *ngIf="course.costo === 0">
+              <ion-icon name="wallet-outline" style="color: rgba(255, 173, 22, 0.918);"></ion-icon> Gratuito
+            </p>
+            <p *ngIf="course.costo > 0">
+              <ion-icon name="wallet-outline" style="color: rgba(255, 173, 21, 0.918);"></ion-icon> {{course.costo}}
+            </p>
+
+          </ion-col>
+        </ion-row>
+      </ion-grid>
+    </div>
+  </div>
+
+  <div class="ion-padding" style="padding-bottom: 1%;" class="div">
+   <div class="card">
+    <div class="card-body">
+      <h2 style="font-size: 150%;">{{course.titulo}}</h2>
+    </div>
+   </div>
+  </div>
+
+  <div style="text-align:center;">
+    <iframe width="1000" height="500" [src]="sanitize(vid)" frameborder="0"
+      allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+
+  <div>
+    <ion-grid fixed>
+      <ion-row>
+        <ion-col size="4" style="text-align:right;">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title ion-text-left " style="color: rgba(245, 172, 35, 0.918);">Acerca de</h3>
+              <h4 class="card-subtitle mb-2 text-muted ion-text-left"
+                style="color: rgba(42, 64, 104, 0.918); padding-bottom: 2%;">
+                {{course.autor}}
+              </h4>
+              <p class="card-text ion-text-left" style="font-size: small;">
+                {{course.acercaDe}}
+              </p>
+            </div>
+          </div>
+        </ion-col>
+        <ion-col size="8" style="text-align:right;">
+          <div class="card">
+            <div class="card-body">
+              <h3 class="card-title ion-text-left " style="color: rgba(62, 108, 194, 0.918);">Transcripcion del curso:
+                {{course.titulo}}</h3>
+              <h4 class="card-subtitle mb-2 text-muted ion-text-left"
+                style="color: rgba(42, 64, 104, 0.918); padding-bottom: 2%;">
+                {{course.autor}}
+              </h4>
+              <p class="card-text ion-text-left" style="font-size: small;">
+                {{course.transcripcionVideo}}
+              </p>
+            </div>
+          </div>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </div>
+
+
+
+
+<app-header></app-header>
+</ion-content>
